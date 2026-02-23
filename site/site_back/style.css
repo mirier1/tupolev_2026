@@ -119,7 +119,8 @@ body {
 
 /* 3D сцена */
 .scene-wrapper {
-    flex: 2;
+    flex: 3;  /* увеличиваем долю карты */
+    min-width: 600px; /* чтобы карта была точно широкой */
     position: relative;
     background: #000;
     overflow: hidden;
@@ -788,3 +789,59 @@ select option {
 ::-webkit-scrollbar-thumb:hover {
     background: #3a4a70;
 }
+/* Уменьшаем карту, даём больше места панели */
+.scene-wrapper {
+    flex: 1.2 !important;  /* было 2, уменьшаем */
+    min-width: 300px;       /* чтобы совсем не сжалась */
+}
+.right-panel {
+    flex: 1.8 !important;   /* было 1, увеличиваем */
+    min-width: 450px;
+}
+
+/* Сдвигаем легенду и статистику левее, чтобы они не наезжали */
+.map-legend {
+    right: 10px !important;  /* прижимаем к правому краю карты */
+    bottom: 10px !important;
+}
+.map-overlay-stats {
+    left: 10px !important;
+    bottom: 10px !important;
+    padding: 10px !important;
+    gap: 15px !important;
+}
+.map-overlay-stats .map-stat .value {
+    font-size: 1.2rem !important; /* чуть уменьшим цифры */
+}
+
+/* Если контролы Leaflet мешают, можно их переместить */
+.leaflet-control-zoom {
+    top: 50px !important; /* отодвинуть от верхнего края */
+    right: 10px !important;
+    left: auto !important;
+}
+.leaflet-control-attribution {
+    display: none !important; /* скрыть атрибуцию, если мешает */
+}
+/* Поднимаем легенду и статистику над картой */
+.map-legend, .map-overlay-stats {
+    z-index: 1000 !important;  /* максимально высоко */
+    pointer-events: none; /* чтобы клики проходили сквозь них к карте, если нужно */
+}
+
+/* Но кнопки внутри легенды должны быть кликабельны */
+.map-legend button,
+.map-legend .legend-item {
+    pointer-events: auto;
+}
+#map {
+    z-index: 1;
+    position: relative;
+}
+/* Фикс для карты - легенда сверху */
+.leaflet-pane { z-index: 1 !important; }
+.leaflet-control { z-index: 1000 !important; }
+.leaflet-top { z-index: 1000 !important; }
+.leaflet-bottom { z-index: 1000 !important; }
+.map-legend { z-index: 2000 !important; pointer-events: none; }
+.map-legend * { pointer-events: auto; }
